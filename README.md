@@ -63,3 +63,5 @@ VSCode 和 Intellj IDEs 都具备对应的插件可以使用
 ![*](assets/plantuml-plugin-intellj.png)
 
 ## 2. 使用
+
+参考 [C4 Model](https://github.com/plantuml-stdlib/C4-PlantUML)
