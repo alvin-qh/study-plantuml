@@ -1,32 +1,30 @@
-@startuml C4_Elements
+@startuml [C4] System Landscape diagram
+
 scale 1
 
 !include <c4/c4_container>
 !include <tupadr3/font-awesome/users>
 !include <tupadr3/devicons/postgresql>
 
-LAYOUT_TOP_DOWN()
+' LAYOUT_TOP_DOWN()
 ' LAYOUT_LEFT_RIGHT()
 
-LAYOUT_WITH_LEGEND()
+' LAYOUT_WITH_LEGEND()
 
-' LAYOUT_AS_SKETCH()
-
-Person(purchaser, "采购商", "零件采购商角色", "users")
-
-Person(supplier, "供应商", "零件生产制造角色", "users")
+LAYOUT_AS_SKETCH()
 
 System_Boundary(inside, "采购商内部系统") {
+    Person(purchaser, "采购商", "零件采购商角色", "users")
     System(scm, "交付协同模块 (内网)", "部署在采购商内网环境的交付协同模块\n[无法和外部联通]")
     System(data_ferry, "数据摆渡模块 (内网)", "用于将外部数据存储到内部系统的模块")
 }
 
-System_Boundary(ouside, "外部供应商系统") {
+System_Boundary(ouside, "外部供应商环境") {
+    Person(supplier, "供应商", "零件生产制造角色", "users")
     System(FAI_desktop, "首件包离线编辑器", "可以离线运行的首件包编辑器\n[桌面版本]")
     Person_Ext(supplier_management, "供应商管理部门", "", "users")
+    System_Ext(producing_department, "零件加工车间", "加工首件零件")
 }
-
-System_Ext(producing_department, "零件加工车间", "加工首件零件")
 
 System_Ext(transport_system, "快递/运输", "涉密文件和零件需线下邮递或快递方式")
 
@@ -41,11 +39,12 @@ Rel(supplier, FAI_desktop, "编写首件包说明书", "邮寄方式")
 Rel(supplier, producing_department, "加工首件零件")
 
 Rel(FAI_desktop, supplier_management, "审核/归档首件包资料")
+Rel(producing_department, supplier_management, "审核/归档首件包资料")
 
 Rel(supplier_management, transport_system, "邮寄首件包资料")
 
-Rel(transport_system, data_ferry, "首件包资料进行数据摆渡")
+Rel(transport_system, data_ferry, "首件包资料进入采购商内部系统")
 
-Rel(data_ferry, purchaser, "首件包资料进入采购商内部系统")
+Rel(data_ferry, purchaser, "首件包资料审核确认")
 
 @enduml
