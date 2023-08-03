@@ -35,6 +35,12 @@ sudo yum install graphviz
 sudo apt install graphviz
 ```
 
+为了显示效果, 需要安装如下字体 (以 Debian 系统为例):
+
+```bash
+sudo apt install ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy
+```
+
 #### macOS 安装
 
 ```bash
@@ -65,3 +71,4 @@ VSCode 和 Intellj IDEs 都具备对应的插件可以使用
 ## 2. 使用
 
 参考 [C4 Model](https://github.com/plantuml-stdlib/C4-PlantUML)
+https://plantuml.com/stdlib
