@@ -1,0 +1,58 @@
+@startuml [C4] System Landscape Diagram
+
+title 首件包模块系统全景图
+
+!include <c4/c4_container>
+!include <tupadr3/font-awesome/users>
+!include <tupadr3/font-awesome/user_md>
+
+scale 1
+
+LAYOUT_TOP_DOWN()
+' LAYOUT_LEFT_RIGHT()
+LAYOUT_WITH_LEGEND()
+LAYOUT_AS_SKETCH()
+
+AddRelTag("maintain", "#aaa", "#aaa", DashedLine())
+AddRelTag("offline", "#aaf", "#aaf", DashedLine())
+
+Enterprise_Boundary(inside, "采购商内部系统") {
+    Person(purchaser, "采购商", "零件采购商角色", "users")
+    System(FAI_service, "首件包管理模块 (内网)", "部署在采购商内网环境的收件包管理模块\n[无法和外部联通]")
+    System(data_ferry, "数据摆渡模块 (内网)", "用于将外部数据存储到内部系统的模块")
+}
+
+Enterprise_Boundary(ouside, "外部供应商环境") {
+    Person(supplier, "供应商", "零件生产制造角色", "users")
+    System(FAI_desktop, "首件包离线编辑器", "可以离线运行的首件包编辑器\n[桌面版本]")
+    Person_Ext(supplier_management, "供应商管理部门", "", "users")
+    System_Ext(producing_department, "零件加工车间", "加工首件零件")
+}
+
+System_Ext(transport_system, "快递/运输", "涉密文件和零件需线下邮递或快递方式")
+
+Person(ops, "运维人员", "系统运维角色", "user_md")
+
+Rel_D(purchaser, FAI_service, "制定技术协议", "采购商制定技术协议, 用于规范供应商的零件生产")
+
+Rel_D(FAI_service, transport_system, "技术协议", "邮寄方式")
+
+Rel(transport_system, supplier, "邮寄技术协议", "邮寄方式")
+
+Rel(supplier, FAI_desktop, "编写首件包说明书", "离线方式")
+
+Rel(supplier, producing_department, "加工首件零件", $tags="offline")
+
+Rel(FAI_desktop, supplier_management, "审核/归档首件包资料", $tags="offline")
+Rel(producing_department, supplier_management, "审核/归档首件包资料", $tags="offline")
+
+Rel(supplier_management, transport_system, "邮寄首件包资料", $tags="offline")
+
+Rel(transport_system, data_ferry, "首件包资料进入采购商内部系统", $tags="offline")
+
+Rel_U(data_ferry, purchaser, "首件包资料审核确认")
+
+Rel_D(ops, FAI_desktop, "安装/调试/升级", $tags=maintain)
+Rel_D(ops, FAI_service, "部署/维护", $tags=maintain)
+
+@enduml

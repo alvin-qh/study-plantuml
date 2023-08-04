@@ -1,50 +1,50 @@
-@startuml [C4] System Landscape diagram
+@startuml [C4] System Context Diagram
+
+title 首件包模块系统上下文图
 
 scale 1
 
 !include <c4/c4_container>
 !include <tupadr3/font-awesome/users>
-!include <tupadr3/devicons/postgresql>
+!include <tupadr3/font-awesome/user>
 
 ' LAYOUT_TOP_DOWN()
 ' LAYOUT_LEFT_RIGHT()
-
 ' LAYOUT_WITH_LEGEND()
+' LAYOUT_AS_SKETCH()
 
-LAYOUT_AS_SKETCH()
+Person(purchaser, "采购商", "零件采购商角色", "users")
 
-System_Boundary(inside, "采购商内部系统") {
-    Person(purchaser, "采购商", "零件采购商角色", "users")
-    System(scm, "交付协同模块 (内网)", "部署在采购商内网环境的交付协同模块\n[无法和外部联通]")
-    System(data_ferry, "数据摆渡模块 (内网)", "用于将外部数据存储到内部系统的模块")
-}
+Person(supplier, "供应商", "零件生产制造角色", "users")
 
-System_Boundary(ouside, "外部供应商环境") {
-    Person(supplier, "供应商", "零件生产制造角色", "users")
-    System(FAI_desktop, "首件包离线编辑器", "可以离线运行的首件包编辑器\n[桌面版本]")
-    Person_Ext(supplier_management, "供应商管理部门", "", "users")
-    System_Ext(producing_department, "零件加工车间", "加工首件零件")
-}
+Person(admin, "系统管理员", "系统管理角色", "user")
 
-System_Ext(transport_system, "快递/运输", "涉密文件和零件需线下邮递或快递方式")
+System(FAI_service, "首件包管理模块 (内网)", "部署在采购商内网环境的交付协同模块\n[无法和外部联通]")
 
-Rel(purchaser, scm, "制定技术协议", "采购商制定技术协议, 用于规范供应商的零件生产")
+System(FAI_desktop, "首件包离线编辑器", "可以离线运行的首件包编辑器\n[桌面版本]")
 
-Rel(scm, transport_system, "技术协议", "邮寄方式")
+System_Ext(UFIDA, "用友中台系统", "系统集成 | 应用部署 | 消息通知")
 
-Rel(transport_system, supplier, "邮寄技术协议", "邮寄方式")
+System_Ext(electric, "上海电气系统", "供应链管理 | 供应商寻源 | 交付协同")
 
-Rel(supplier, FAI_desktop, "编写首件包说明书", "邮寄方式")
+System_Ext(landray, "蓝凌 OA 系统", "工作流")
 
-Rel(supplier, producing_department, "加工首件零件")
+SystemDb(dm_db, "达梦数据库系统", "数据存储")
 
-Rel(FAI_desktop, supplier_management, "审核/归档首件包资料")
-Rel(producing_department, supplier_management, "审核/归档首件包资料")
+Rel(supplier, FAI_desktop, "编写收件说明书")
 
-Rel(supplier_management, transport_system, "邮寄首件包资料")
+Rel(FAI_desktop, FAI_service, "管理首件包")
 
-Rel(transport_system, data_ferry, "首件包资料进入采购商内部系统")
+Rel(FAI_service, dm_db, "数据访问/存储")
 
-Rel(data_ferry, purchaser, "首件包资料审核确认")
+Rel(FAI_service, UFIDA, "用户认证, 消息通知")
+
+Rel(FAI_service, landray, "审批, 表单")
+
+Rel(FAI_service, electric, "待办事项")
+
+Rel(purchaser, FAI_service, "首件包审核, 审批")
+
+Rel(admin, FAI_service, "系统管理")
 
 @enduml
