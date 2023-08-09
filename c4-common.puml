@@ -1,0 +1,37 @@
+@startuml 系统标记
+!include <c4/c4_container>
+!include <c4/c4_deployment>
+
+!include <office/users/user>
+!include <office/users/users>
+!include <office/users/approver>
+!include <office/users/user_external>
+!include <office/users/administrator>
+!include <office/servers/application_server>
+!include <office/servers/database_server>
+!include <office/services/3rd_party_service>
+!include <office/services/access_services>
+!include <office/concepts/application_windows>
+
+AddPersonTag(users, $sprite="users", $legendText="应用用户")
+AddPersonTag(admins, $sprite="administrator", $legendText="系统管理员")
+AddPersonTag(maintainers, $sprite="approver", $legendText="运维人员")
+AddExternalPersonTag(ext_users, $sprite="user_external", $legendText="外部人员")
+
+AddSystemTag(web, $sprite="application_server", $legendText="内部服务系统")
+AddSystemTag(module, $sprite="access_services", $legendText="内部模块")
+AddSystemTag(desktop, $sprite="application_windows", $legendText="桌面应用系统")
+AddSystemTag(database, $sprite="database_server", $legendText="数据库系统")
+AddExternalSystemTag(ext, $sprite="application_server", $legendText="外部业务系统")
+AddExternalSystemTag(offline, $sprite="3rd_party_service", $legendText="外部线下业务系统")
+
+AddNodeTag(n, $legendText="服务节点")
+AddContainerTag(c, $legendText="服务容器")
+AddExternalContainerTag(ext_c, $legendText="外部服务容器")
+
+AddRelTag(maintain, $textColor="#aaa", $lineColor="#aaa", $lineStyle=DashedLine(), $legendText="维护操作")
+AddRelTag(offline, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DashedLine(), $legendText="线下业务")
+
+AddContainerTag(present, $bgColor="#66CDAA", $legendText="表示层组件")
+AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
+@enduml
