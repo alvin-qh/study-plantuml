@@ -34,4 +34,8 @@ AddRelTag(offline, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DashedLine()
 
 AddContainerTag(present, $bgColor="#66CDAA", $legendText="表示层组件")
 AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
+
+!unquoted procedure Users($alias, $label, $descr="", $sprite="", $link="", $type="")
+  $Person($alias, $label, $descr, $sprite, $link, $type, $tags="users")
+!endprocedure
 @enduml
