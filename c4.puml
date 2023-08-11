@@ -91,7 +91,7 @@ AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
   System($alias, $label, $descr, $sprite, "web", $link)
 !endprocedure
 
-!unquoted procedure Database($alias, $label="", $descr="", $sprite="", $link="")
+!unquoted procedure DBServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
     $label = "数据库服务器"
   !endif
