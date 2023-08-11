@@ -50,7 +50,9 @@ Boundary(component, "组件用例组") {
 Boundary(deployment, "部署图") {
   AddProperty("CPU", "4 core")
   AddProperty("Memory", "8GB")
-  DNode(n1, "节点1", "节点类型", "测试节点组件")
+  DNode(n1, "节点1", "节点类型", "测试节点组件") {
+    Container(cc1, "节点内部容器", "容器技术描述", "容器描述")
+  }
 
   AddProperty("CPU", "4 core")
   AddProperty("Memory", "8GB")
