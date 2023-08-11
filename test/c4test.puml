@@ -50,16 +50,16 @@ Boundary(component, "组件用例组") {
 Boundary(deployment, "部署图") {
   AddProperty("CPU", "4 core")
   AddProperty("Memory", "8GB")
-  Node(n1, "节点1", "节点技术描述", "测试节点组件")
+  DNode(n1, "节点1", "节点类型", "测试节点组件")
 
   AddProperty("CPU", "4 core")
   AddProperty("Memory", "8GB")
-  Node(n2, "节点2", "节点技术描述", "测试节点组件")
+  DNode(n2, "节点2", "节点类型", "测试节点组件")
 
   Boundary(inside, "服务组") {
     AddProperty("CPU", "2 core")
     AddProperty("Memory", "4GB")
-    Node(n3, "节点3", "节点技术描述", "测试节点组件")
+    DNode(n3, "节点3", "节点类型", "测试节点组件")
   }
 
   Lay_D(n2, inside)
@@ -86,15 +86,15 @@ Boundary(rel, "连线") {
   Container(GG, "GG")
   Container(HH, "HH")
 
-  Rel("A", "B", "A->B")
-  VRel("C", "D", "C->D")
-  ORel("E", "F", "E->F")
-  BRel("G", "H", "G->H")
+  Rel("A", "B", "Rel")
+  VRel("C", "D", "VRel")
+  ORel("E", "F", "ORel")
+  BRel("G", "H", "BRel")
 
-  BiRel("AA", "BB", "AA->BB")
-  BiVRel("CC", "DD", "CC->DD")
-  BiORel("EE", "FF", "EE->FF")
-  BiBRel("GG", "HH", "GG->HH")
+  BiRel("AA", "BB", "BiRel")
+  BiVRel("CC", "DD", "BiVRel")
+  BiORel("EE", "FF", "BiORel")
+  BiBRel("GG", "HH", "BiBRel")
 }
 
 Lay_D(container, rel)
