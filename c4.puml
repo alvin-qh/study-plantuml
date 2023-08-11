@@ -98,7 +98,7 @@ AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
   System($alias, $label, $descr, $sprite, "database", $link)
 !endprocedure
 
-!unquoted procedure AppServerExt($alias, $label="", $descr="", $sprite="", $link="")
+!unquoted procedure ExtServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
     $label = "外部应用服务器"
   !endif
