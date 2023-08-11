@@ -33,7 +33,7 @@ AddExternalSystemTag(ext_db_s, $sprite="database_server", $legendText="外部数
 AddExternalSystemTag(ext_queue_s, $sprite="messages_queued", $legendText="外部队列系统")
 AddExternalSystemTag(offline_s, $sprite="3rd_party_service", $legendText="外部线下业务系统")
 
-AddNodeTag(node, $legendText="服务节点")
+AddNodeTag(sn, $legendText="服务节点")
 
 AddContainerTag(c, $legendText="服务容器", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
 AddContainerTag(db_c, $legendText="数据服务容器", $sprite="database,scale=0.55", $legendSprite="database,scale=0.25")
@@ -177,15 +177,15 @@ AddRelTag(offline_r, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DottedLine
 !endprocedure
 
 !unquoted procedure Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Deployment_Node($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "node", $link)
+  Deployment_Node($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "sn", $link)
 !endprocedure
 
 !unquoted procedure Node_L($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Deployment_Node_L($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "node", $link)
+  Deployment_Node_L($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "sn", $link)
 !endprocedure
 
 !unquoted procedure Node_R($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Deployment_Node_R($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "node", $link)
+  Deployment_Node_R($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "sn", $link)
 !endprocedure
 
 !unquoted procedure Rel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
