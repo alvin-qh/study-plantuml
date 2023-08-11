@@ -56,10 +56,24 @@ Container(F, "F")
 Container(G, "G")
 Container(H, "H")
 
+Container(AA, "AA")
+Container(BB, "BB")
+Container(CC, "CC")
+Container(DD, "DD")
+Container(EE, "EE")
+Container(FF, "FF")
+Container(GG, "GG")
+Container(HH, "HH")
+
 Rel("A", "B", "A->B")
 VRel("C", "D", "C->D")
 ORel("E", "F", "E->F")
 BRel("G", "H", "G->H")
+
+BiRel("AA", "BB", "AA->BB")
+BiVRel("CC", "DD", "CC->DD")
+BiORel("EE", "FF", "EE->FF")
+BiBRel("GG", "HH", "GG->HH")
 
 SHOW_LEGEND()
 
