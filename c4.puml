@@ -56,7 +56,7 @@ AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
   Person($alias, $label, $descr, $sprite, "maintainers", $link)
 !endprocedure
 
-!unquoted procedure Maintainers($alias, $label="", $descr="", $sprite="", $link="")
+!unquoted procedure ExtUsers($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
     $label = "外部人员"
   !endif
