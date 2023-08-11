@@ -16,7 +16,7 @@
 AddPersonTag(users, $sprite="users", $legendText="应用用户")
 AddPersonTag(admins, $sprite="administrator", $legendText="系统管理员")
 AddPersonTag(maintainers, $sprite="approver", $legendText="运维人员")
-AddExternalPersonTag(ext_users, $sprite="user_external", $legendText="外部人员")
+AddExternalPersonTag(ext_person, $sprite="user_external", $legendText="外部人员")
 
 AddSystemTag(web, $sprite="application_server", $legendText="内部服务系统")
 AddSystemTag(module, $sprite="access_services", $legendText="内部模块")
@@ -35,7 +35,80 @@ AddRelTag(offline, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DashedLine()
 AddContainerTag(present, $bgColor="#66CDAA", $legendText="表示层组件")
 AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
 
-!unquoted procedure Users($alias, $label, $descr="", $sprite="", $link="", $type="")
-  $Person($alias, $label, $descr, $sprite, $link, $type, $tags="users")
+!unquoted procedure Users($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "用户"
+  !endif
+  Person($alias, $label, $descr, $sprite, "users", $link)
+!endprocedure
+
+!unquoted procedure Admins($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "管理员"
+  !endif
+  Person($alias, $label, $descr, $sprite, "admins", $link)
+!endprocedure
+
+!unquoted procedure Maintainers($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "运维人员"
+  !endif
+  Person($alias, $label, $descr, $sprite, "maintainers", $link)
+!endprocedure
+
+!unquoted procedure Maintainers($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "外部人员"
+  !endif
+  Person($alias, $label, $descr, $sprite, "ext_person", $link)
+!endprocedure
+
+!unquoted procedure AppServer($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "应用服务器"
+  !endif
+  System($alias, $label, $descr, $sprite, "web", $link)
+!endprocedure
+
+!unquoted procedure AppModule($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "应用模块"
+  !endif
+  System($alias, $label, $descr, $sprite, "module", $link)
+!endprocedure
+
+!unquoted procedure AppDesktop($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "桌面应用"
+  !endif
+  System($alias, $label, $descr, $sprite, "desktop", $link)
+!endprocedure
+
+!unquoted procedure AppServer($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "应用服务器"
+  !endif
+  System($alias, $label, $descr, $sprite, "web", $link)
+!endprocedure
+
+!unquoted procedure Database($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "数据库服务器"
+  !endif
+  System($alias, $label, $descr, $sprite, "database", $link)
+!endprocedure
+
+!unquoted procedure AppServerExt($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "外部应用服务器"
+  !endif
+  System($alias, $label, $descr, $sprite, "ext", $link)
+!endprocedure
+
+!unquoted procedure OfflineSystem($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    $label = "线下系统"
+  !endif
+  System($alias, $label, $descr, $sprite, "offline", $link)
 !endprocedure
 @enduml
