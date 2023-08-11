@@ -13,7 +13,7 @@
 !include <office/services/access_services>
 !include <office/concepts/application_windows>
 
-AddPersonTag(users, $sprite="users", $legendText="应用用户")
+AddPersonTag(users, $sprite="users{scalar="0.15"}", $legendText="应用用户")
 AddPersonTag(admins, $sprite="administrator", $legendText="系统管理员")
 AddPersonTag(maintainers, $sprite="approver", $legendText="运维人员")
 AddExternalPersonTag(ext_person, $sprite="user_external", $legendText="外部人员")
