@@ -105,7 +105,7 @@ AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
   System($alias, $label, $descr, $sprite, "ext", $link)
 !endprocedure
 
-!unquoted procedure OfflineSystem($alias, $label="", $descr="", $sprite="", $link="")
+!unquoted procedure OfflineServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
     $label = "线下系统"
   !endif
