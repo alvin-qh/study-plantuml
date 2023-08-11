@@ -1,0 +1,66 @@
+@startuml element test
+
+title C4 测试图例
+footer C4 测试图例, 作者: 瞿昊
+
+scale 0.8
+
+!include ../c4.puml
+
+Boundary(users, "用户用例组") {
+  Users(u1, "用户", "测试用户")
+  Admins(u2, "管理员", "测试管理员")
+  Maintainers(u3, "运维", "测试运维人员")
+  ExtUsers(u4, "外部人员", "测试外部人员")
+}
+
+Boundary(systems, "系统用例组") {
+  AppServer(s1, "WEB 服务器", "测试服务器")
+  AppModule(s2, "登录模块", "测试服务模块")
+  AppDesktop(s3, "桌面应用", "测试桌面应用")
+  QueueServer(s4, "队列服务", "测试队列应用")
+  DBServer(s5, "数据库服务器", "测试数据库服务器")
+  ExtServer(s6, "外部服务", "测试外部服务")
+  ExtDBServer(s7, "外部数据库", "测试外部数据库服务")
+  ExtQueueServer(s8, "外部队列服务", "测试外部队列应用")
+  Offline(s9, "线下业务/三方业务", "测试线下业务系统")
+}
+
+Boundary(container, "容器用例组") {
+  Container(c1, "标准容器", "容器技术描述", "测试标准容器")
+  DataContainer(c2, "数据容器", "容器技术描述", "测试数据容器")
+  ContainerQueue(c3, "队列容器", "容器技术描述", "测试外部队列容器")
+  ExtContainer(c4, "外部容器", "容器技术描述", "测试外部容器")
+  ExtDataContainer(c5, "外部数据容器", "容器技术描述", "测试外部数据器")
+  ExtContainerQueue(c6, "外部队列容器", "容器技术描述", "测试外部队列容器")
+}
+
+Boundary(component, "组件用例组") {
+  Component(cmp1, "标准组件", "组件技术描述", "测试标准组件")
+  PresentComp(cmp2, "表现层组件", "组件技术描述", "测试表现层组件")
+  ServiceComp(cmp3, "业务层组件", "组件技术描述", "测试业务层组件")
+  PersistComp(cmp4, "持久层组件", "组件技术描述", "测试持久层组件")
+  QueueComp(cmp5, "队列组件", "组件技术描述", "队列组件")
+  DBComp(cmp6, "数据层组件", "组件技术描述", "测试数据层组件")
+  ExtComp(cmp7, "外部组件", "组件技术描述", "测试外部组件")
+  ExtDBComp(cmp8, "外部数据组件", "组件技术描述", "测试外部数据组件")
+  ExtQueueComp(cmp9, "外部队列组件", "组件技术描述", "测试外部队列组件")
+}
+
+Container(A, "A")
+Container(B, "B")
+Container(C, "C")
+Container(D, "D")
+Container(E, "E")
+Container(F, "F")
+Container(G, "G")
+Container(H, "H")
+
+Rel("A", "B", "A->B")
+VRel("C", "D", "C->D")
+ORel("E", "F", "E->F")
+BRel("G", "H", "G->H")
+
+SHOW_LEGEND()
+
+@enduml

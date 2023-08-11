@@ -1,5 +1,7 @@
 @startuml 系统标记
+
 !include <c4/c4_container>
+!include <c4/c4_component>
 !include <c4/c4_deployment>
 
 !include <office/users/user>
@@ -12,103 +14,404 @@
 !include <office/services/3rd_party_service>
 !include <office/services/access_services>
 !include <office/concepts/application_windows>
+!include <office/concepts/app_part>
+!include <office/databases/database>
+!include <office/communications/messages_queued>
 
-AddPersonTag(users, $sprite="users{scalar="0.15"}", $legendText="应用用户")
-AddPersonTag(admins, $sprite="administrator", $legendText="系统管理员")
-AddPersonTag(maintainers, $sprite="approver", $legendText="运维人员")
-AddExternalPersonTag(ext_person, $sprite="user_external", $legendText="外部人员")
+AddPersonTag(users, $sprite="users", $legendText="\t应用用户")
+AddPersonTag(admins, $sprite="administrator", $legendText="\t系统管理员")
+AddPersonTag(maintainers, $sprite="approver", $legendText="\t运维人员")
+AddExternalPersonTag(ext_person, $sprite="user_external", $legendText="\t外部人员")
 
-AddSystemTag(web, $sprite="application_server", $legendText="内部服务系统")
-AddSystemTag(module, $sprite="access_services", $legendText="内部模块")
-AddSystemTag(desktop, $sprite="application_windows", $legendText="桌面应用系统")
-AddSystemTag(database, $sprite="database_server", $legendText="数据库系统")
-AddExternalSystemTag(ext, $sprite="application_server", $legendText="外部业务系统")
-AddExternalSystemTag(offline, $sprite="3rd_party_service", $legendText="外部线下业务系统")
+AddSystemTag(web_s, $sprite="application_server", $legendText="\t内部服务系统")
+AddSystemTag(module_s, $sprite="access_services", $legendText="\t内部模块")
+AddSystemTag(desktop_s, $sprite="application_windows", $legendText="\t桌面应用系统")
+AddSystemTag(db_s, $sprite="database_server", $legendText="\t数据库系统")
+AddSystemTag(queue_s, $sprite="messages_queued", $legendText="\t队列系统")
+AddExternalSystemTag(ext_s, $sprite="application_server", $legendText="\t外部业务系统")
+AddExternalSystemTag(ext_db_s, $sprite="database_server", $legendText="\t外部数据库系统")
+AddExternalSystemTag(ext_queue_s, $sprite="messages_queued", $legendText="\t外部队列系统")
+AddExternalSystemTag(offline_s, $sprite="3rd_party_service", $legendText="\t外部线下业务系统")
 
-AddNodeTag(n, $legendText="服务节点")
-AddContainerTag(c, $legendText="服务容器")
-AddExternalContainerTag(ext_c, $legendText="外部服务容器")
+AddNodeTag(n, $legendText="\t服务节点")
 
-AddRelTag(maintain, $textColor="#aaa", $lineColor="#aaa", $lineStyle=DashedLine(), $legendText="维护操作")
-AddRelTag(offline, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DashedLine(), $legendText="线下业务")
+AddContainerTag(c, $legendText="\t服务容器", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddContainerTag(db_c, $legendText="\t数据服务容器", $sprite="database,scale=0.55", $legendSprite="database,scale=0.25")
+AddContainerTag(queue_c, $legendText="\t队列容器", $sprite="messages_queued,scale=0.55", $legendSprite="messages_queued,scale=0.25")
+AddExternalContainerTag(ext_c, $legendText="\t外部服务容器", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddExternalContainerTag(ext_db_c, $legendText="\t外部数据容器", $sprite="database,scale=0.55", $legendSprite="database,scale=0.25")
+AddExternalContainerTag(ext_queue_c, $legendText="\t外部队列容器", $sprite="messages_queued,scale=0.55", $legendSprite="messages_queued,scale=0.25")
 
-AddContainerTag(present, $bgColor="#66CDAA", $legendText="表示层组件")
-AddContainerTag(service, $bgColor="#458B74", $legendText="业务层组件")
+AddComponentTag(comp, $legendText="标准组件", $legendText="\t表示层组件", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddComponentTag(present_comp, $bgColor="#AFC8B2", $legendText="\t表示层组件", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddComponentTag(service_comp, $bgColor="#8FA678", $legendText="\t业务层组件", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddComponentTag(persist_comp, $bgColor="#BFB3B4", $legendText="\t持久层组件", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddComponentTag(db_comp, $legendText="\t数据库组件", $sprite="database,scale=0.55", $legendSprite="database,scale=0.25")
+AddComponentTag(queue_comp, $legendText="\t消息组件", $sprite="messages_queued,scale=0.55", $legendSprite="messages_queued,scale=0.25")
+AddExternalComponentTag(ext_comp, $legendText="\t外部组件", $sprite="app_part,scale=0.55", $legendSprite="app_part,scale=0.25")
+AddExternalComponentTag(ext_db_comp, $legendText="\t外部数据组件", $sprite="database,scale=0.55", $legendSprite="database,scale=0.25")
+AddExternalComponentTag(ext_queue_comp, $legendText="\t外部队列组件", $sprite="messages_queued,scale=0.55", $legendSprite="messages_queued,scale=0.25")
+
+AddRelTag(r, $lineStyle=Line(), $legendText="\t业务关联")
+AddRelTag(b_r, $lineStyle=BoldLine(), $legendText="\t关键业务关联")
+AddRelTag(v_r, $textColor="#aaa", $lineColor="#aaa", $lineStyle=DashedLine(), $legendText="\t非业务关联")
+AddRelTag(offline_r, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DottedLine(), $legendText="\t外部关联")
 
 !unquoted procedure Users($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "用户"
+    !$label = "用户"
   !endif
   Person($alias, $label, $descr, $sprite, "users", $link)
 !endprocedure
 
 !unquoted procedure Admins($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "管理员"
+    !$label = "管理员"
   !endif
   Person($alias, $label, $descr, $sprite, "admins", $link)
 !endprocedure
 
 !unquoted procedure Maintainers($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "运维人员"
+    !$label = "运维人员"
   !endif
   Person($alias, $label, $descr, $sprite, "maintainers", $link)
 !endprocedure
 
 !unquoted procedure ExtUsers($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "外部人员"
+    !$label = "外部人员"
   !endif
   Person($alias, $label, $descr, $sprite, "ext_person", $link)
 !endprocedure
 
 !unquoted procedure AppServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "应用服务器"
+    !$label = "应用服务"
   !endif
-  System($alias, $label, $descr, $sprite, "web", $link)
+  System($alias, $label, $descr, $sprite, "web_s", $link)
 !endprocedure
 
 !unquoted procedure AppModule($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "应用模块"
+    !$label = "服务模块"
   !endif
-  System($alias, $label, $descr, $sprite, "module", $link)
+  System($alias, $label, $descr, $sprite, "module_s", $link)
 !endprocedure
 
 !unquoted procedure AppDesktop($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "桌面应用"
+    !$label = "桌面应用"
   !endif
-  System($alias, $label, $descr, $sprite, "desktop", $link)
-!endprocedure
-
-!unquoted procedure AppServer($alias, $label="", $descr="", $sprite="", $link="")
-  !if ($label == "")
-    $label = "应用服务器"
-  !endif
-  System($alias, $label, $descr, $sprite, "web", $link)
+  System($alias, $label, $descr, $sprite, "desktop_s", $link)
 !endprocedure
 
 !unquoted procedure DBServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "数据库服务器"
+    !$label = "数据库服务"
   !endif
-  System($alias, $label, $descr, $sprite, "database", $link)
+  SystemDb($alias, $label, $descr, $sprite, "db_s", $link)
+!endprocedure
+
+!unquoted procedure QueueServer($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "队列服务"
+  !endif
+  SystemQueue($alias, $label, $descr, $sprite, "queue_s", $link)
 !endprocedure
 
 !unquoted procedure ExtServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "外部应用服务器"
+    !$label = "外部应用服务"
   !endif
-  System($alias, $label, $descr, $sprite, "ext", $link)
+  System_Ext($alias, $label, $descr, $sprite, "ext_s", $link)
 !endprocedure
 
-!unquoted procedure OfflineServer($alias, $label="", $descr="", $sprite="", $link="")
+!unquoted procedure ExtDBServer($alias, $label="", $descr="", $sprite="", $link="")
   !if ($label == "")
-    $label = "线下系统"
+    !$label = "外部数据库服务"
   !endif
-  System($alias, $label, $descr, $sprite, "offline", $link)
+  SystemDb_Ext($alias, $label, $descr, $sprite, "ext_db_s", $link)
 !endprocedure
+
+!unquoted procedure ExtQueueServer($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部队列服务"
+  !endif
+  SystemQueue($alias, $label, $descr, $sprite, "ext_queue_s", $link)
+!endprocedure
+
+!unquoted procedure Offline($alias, $label="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "线下系统"
+  !endif
+  System($alias, $label, $descr, $sprite, "offline_s", $link)
+!endprocedure
+
+!unquoted procedure Container($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "标准容器"
+  !endif
+  Container($alias, $label, $descr, $techn, $sprite, "c", $link)
+!endprocedure
+
+!unquoted procedure ExtContainer($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部容器"
+  !endif
+  Container($alias, $label, $descr, $techn, $sprite, "ext_c", $link)
+!endprocedure
+
+!unquoted procedure DataContainer($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "数据容器"
+  !endif
+  ContainerDb($alias, $label, $descr, $techn, $sprite, "db_c", $link)
+!endprocedure
+
+!unquoted procedure ExtDataContainer($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部数据容器"
+  !endif
+  ContainerDb_Ext($alias, $label, $descr, $techn, $sprite, "ext_db_c", $link)
+!endprocedure
+
+!unquoted procedure ContainerQueue($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "队列容器"
+  !endif
+  ContainerQueue($alias, $label, $descr, $techn, $sprite, "queue_c", $link)
+!endprocedure
+
+!unquoted procedure ExtContainerQueue($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部队列容器"
+  !endif
+  ContainerQueue_Ext($alias, $label, $descr, $techn, $sprite, "ext_queue_c", $link)
+!endprocedure
+
+!unquoted procedure Component($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "标准组件"
+  !endif
+  Component($alias, $label, $descr, $techn, $sprite, "comp", $link)
+!endprocedure
+
+!unquoted procedure PresentComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "表现层组件"
+  !endif
+  Component($alias, $label, $descr, $techn, $sprite, "present_comp", $link)
+!endprocedure
+
+!unquoted procedure ServiceComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "业务层组件"
+  !endif
+  Component($alias, $label, $descr, $techn, $sprite, "service_comp", $link)
+!endprocedure
+
+!unquoted procedure PersistComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "持久层组件"
+  !endif
+  Component($alias, $label, $descr, $techn, $sprite, "persist_comp", $link)
+!endprocedure
+
+!unquoted procedure DBComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "数据层组件"
+  !endif
+  Component($alias, $label, $descr, $techn, $sprite, "db_comp", $link)
+!endprocedure
+
+!unquoted procedure QueueComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "数据层组件"
+  !endif
+  ComponentQueue($alias, $label, $descr, $techn, $sprite, "queue_comp", $link)
+!endprocedure
+
+!unquoted procedure ExtComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部组件"
+  !endif
+  Component_Ext($alias, $label, $descr, $techn, $sprite, "ext_comp", $link)
+!endprocedure
+
+!unquoted procedure ExtDBComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部数据组件"
+  !endif
+  ComponentDb_Ext($alias, $label, $descr, $techn, $sprite, "ext_db_comp", $link)
+!endprocedure
+
+!unquoted procedure ExtQueueComp($alias, $label="", $descr="", $techn="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "外部队列组件"
+  !endif
+  ComponentQueue_Ext($alias, $label, $descr, $techn, $sprite, "ext_queue_comp", $link)
+!endprocedure
+
+!unquoted procedure Deployment_Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "系统节点"
+  !endif
+  Deployment_Node($alias, $label, $type, $descr, $sprite, "n", $link)
+!endprocedure
+
+!unquoted procedure Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "系统节点"
+  !endif
+  Node($alias, $label, $type, $descr, $sprite, "n", $link)
+!endprocedure
+
+!unquoted procedure Node_R($alias, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = "系统节点"
+  !endif
+  Node_R($alias, $label, $type, $descr, $sprite, "n", $link)
+!endprocedure
+
+!unquoted procedure Rel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel($from, $to, $label, $type, $descr, $sprite, "r", $link)
+!endprocedure
+
+!unquoted procedure Rel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "r", $link)
+!endprocedure
+
+!unquoted procedure Rel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "r", $link)
+!endprocedure
+
+!unquoted procedure Rel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "r", $link)
+!endprocedure
+
+!unquoted procedure Rel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "r", $link)
+!endprocedure
+
+!unquoted procedure VRel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel($from, $to, $label, $type, $descr, $sprite, "v_r", $link)
+!endprocedure
+
+!unquoted procedure VRel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "v_r", $link)
+!endprocedure
+
+!unquoted procedure VRel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "v_r", $link)
+!endprocedure
+
+!unquoted procedure VRel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "v_r", $link)
+!endprocedure
+
+!unquoted procedure VRel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "v_r", $link)
+!endprocedure
+
+!unquoted procedure ORel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel($from, $to, $label, $type, $descr, $sprite, "offline_r", $link)
+!endprocedure
+
+!unquoted procedure ORel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "offline_r", $link)
+!endprocedure
+
+!unquoted procedure ORel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "offline_r", $link)
+!endprocedure
+
+!unquoted procedure ORel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "offline_r", $link)
+!endprocedure
+
+!unquoted procedure ORel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "offline_r", $link)
+!endprocedure
+
+!unquoted procedure BRel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel($from, $to, $label, $type, $descr, $sprite, "b_r", $link)
+!endprocedure
+
+!unquoted procedure BRel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "b_r", $link)
+!endprocedure
+
+!unquoted procedure BRel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "b_r", $link)
+!endprocedure
+
+!unquoted procedure BRel_U($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_U($from, $to, $label, $type, $descr, $sprite, "b_r", $link)
+!endprocedure
+
+!unquoted procedure BRel_D($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
+  !if ($label == "")
+    !$label = " "
+  !endif
+  Rel_D($from, $to, $label, $type, $descr, $sprite, "b_r", $link)
+!endprocedure
+
 @enduml
