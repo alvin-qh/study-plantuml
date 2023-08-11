@@ -176,20 +176,16 @@ AddRelTag(offline_r, $textColor="#aaf", $lineColor="#aaf", $lineStyle=DottedLine
   ComponentQueue_Ext($alias, $defLabel($label, "外部队列组件"), $descr, $techn, $sprite, "ext_queue_comp", $link)
 !endprocedure
 
-!unquoted procedure Deployment_Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
+!unquoted procedure Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
   Deployment_Node($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
 !endprocedure
 
-!unquoted procedure Node($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Node($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
-!endprocedure
-
 !unquoted procedure Node_L($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Node_L($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
+  Deployment_Node_L($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
 !endprocedure
 
 !unquoted procedure Node_R($alias, $label="", $type="", $descr="", $sprite="", $link="")
-  Node_R($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
+  Deployment_Node_R($alias, $defLabel($label, "系统节点"), $type, $descr, $sprite, "n", $link)
 !endprocedure
 
 !unquoted procedure Rel($from, $to, $label="", $type="", $descr="", $sprite="", $link="")
