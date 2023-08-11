@@ -47,33 +47,57 @@ Boundary(component, "组件用例组") {
   ExtQueueComp(cmp9, "外部队列组件", "组件技术描述", "测试外部队列组件")
 }
 
-Container(A, "A")
-Container(B, "B")
-Container(C, "C")
-Container(D, "D")
-Container(E, "E")
-Container(F, "F")
-Container(G, "G")
-Container(H, "H")
+Boundary(deployment, "部署图") {
+  AddProperty("CPU", "4 core")
+  AddProperty("Memory", "8GB")
+  Node(n1, "节点1", "节点技术描述", "测试节点组件")
 
-Container(AA, "AA")
-Container(BB, "BB")
-Container(CC, "CC")
-Container(DD, "DD")
-Container(EE, "EE")
-Container(FF, "FF")
-Container(GG, "GG")
-Container(HH, "HH")
+  AddProperty("CPU", "4 core")
+  AddProperty("Memory", "8GB")
+  Node(n2, "节点2", "节点技术描述", "测试节点组件")
 
-Rel("A", "B", "A->B")
-VRel("C", "D", "C->D")
-ORel("E", "F", "E->F")
-BRel("G", "H", "G->H")
+  Boundary(inside, "服务组") {
+    AddProperty("CPU", "2 core")
+    AddProperty("Memory", "4GB")
+    Node(n3, "节点3", "节点技术描述", "测试节点组件")
+  }
 
-BiRel("AA", "BB", "AA->BB")
-BiVRel("CC", "DD", "CC->DD")
-BiORel("EE", "FF", "EE->FF")
-BiBRel("GG", "HH", "GG->HH")
+  Lay_D(n2, inside)
+}
+
+Lay_D(container, deployment)
+
+Boundary(rel, "连线") {
+  Container(A, "A")
+  Container(B, "B")
+  Container(C, "C")
+  Container(D, "D")
+  Container(E, "E")
+  Container(F, "F")
+  Container(G, "G")
+  Container(H, "H")
+
+  Container(AA, "AA")
+  Container(BB, "BB")
+  Container(CC, "CC")
+  Container(DD, "DD")
+  Container(EE, "EE")
+  Container(FF, "FF")
+  Container(GG, "GG")
+  Container(HH, "HH")
+
+  Rel("A", "B", "A->B")
+  VRel("C", "D", "C->D")
+  ORel("E", "F", "E->F")
+  BRel("G", "H", "G->H")
+
+  BiRel("AA", "BB", "AA->BB")
+  BiVRel("CC", "DD", "CC->DD")
+  BiORel("EE", "FF", "EE->FF")
+  BiBRel("GG", "HH", "GG->HH")
+}
+
+Lay_D(container, rel)
 
 SHOW_LEGEND()
 
