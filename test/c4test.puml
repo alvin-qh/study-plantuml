@@ -7,6 +7,8 @@ scale 0.8
 
 !include ../c4.puml
 
+WithoutPropertyHeader()
+
 Boundary(users, "用户用例组") {
   Users(u1, "用户", "测试用户")
   Admins(u2, "管理员", "测试管理员")
